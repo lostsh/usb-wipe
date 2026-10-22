@@ -1,0 +1,81 @@
+name: Bug report
+description: The script stopped, failed, or picked the wrong disk.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The wipe report and the commands below show names, ticket numbers and serial
+        numbers. Remove them before posting.
+
+  - type: input
+    id: release
+    attributes:
+      label: Release
+      description: "Release tag of usb-wipe.sh (see the releases page)."
+      placeholder: v1.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Where did it go wrong?
+      options:
+        - Installer (install.sh)
+        - Disk detection (no disk, several disks, wrong disk)
+        - HDD wipe (shred)
+        - SSD Sanitize over USB (hdparm)
+        - Manufacturer's tool, then --verify-only
+        - Verification (fingerprints)
+        - Reformat (sfdisk, mkfs.exfat)
+    validations:
+      required: true
+
+  - type: input
+    id: exit-code
+    attributes:
+      label: Exit code
+      description: "Run 'echo $?' right after the script: 1 stopped, 2 manufacturer's tool, 3 destroy."
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: "What you expected, and what happened instead."
+    validations:
+      required: true
+
+  - type: textarea
+    id: report
+    attributes:
+      label: Wipe report
+      description: "Content of the wipe-report-*.txt file."
+      render: text
+
+  - type: textarea
+    id: lsblk
+    attributes:
+      label: Disks seen by the system
+      description: "Output of: lsblk -o NAME,TRAN,TYPE,SIZE,FSTYPE,MOUNTPOINT,MODEL (disk plugged in)."
+      render: text
+
+  - type: textarea
+    id: hdparm
+    attributes:
+      label: hdparm output
+      description: "SSD problems only. Output of: sudo hdparm -I /dev/sdX"
+      render: text
+
+  - type: input
+    id: adapter
+    attributes:
+      label: USB adapter or enclosure
+      description: "Brand and model, or the matching line of lsusb."
+
+  - type: input
+    id: system
+    attributes:
+      label: System
+      description: "Ubuntu version, installed or live USB."
+      placeholder: Ubuntu 24.04 live USB
