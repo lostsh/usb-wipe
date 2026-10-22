@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ASCII only
+        run: |
+          if LC_ALL=C grep -rnP '[^\x00-\x7F]' --exclude-dir=.git .; then
+            echo "Non-ASCII characters found: this repo is ASCII only."
+            exit 1
+          fi
+
+      - name: ShellCheck
+        run: shellcheck -x usb-wipe.sh install.sh tests/run-tests.sh
+
+      - name: Tests
+        run: bash tests/run-tests.sh

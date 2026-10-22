@@ -1,0 +1,67 @@
+name: Hardware report
+description: Share how a disk and its USB adapter behaved, to build the list of tested hardware.
+labels: [hardware]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing. Do not include serial numbers.
+
+  - type: input
+    id: disk
+    attributes:
+      label: Disk model and size
+      placeholder: Samsung T7 1 TB, WD Elements 2 TB
+    validations:
+      required: true
+
+  - type: dropdown
+    id: disk-type
+    attributes:
+      label: Disk type
+      options:
+        - HDD
+        - SATA SSD
+        - NVMe SSD
+        - Unknown
+    validations:
+      required: true
+
+  - type: input
+    id: adapter
+    attributes:
+      label: USB adapter or enclosure
+      description: "Built-in for sealed portable SSDs. Otherwise brand and model, or the matching line of lsusb."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - HDD wiped and verified by the script
+        - SSD Sanitize over USB worked, verified by the script
+        - SSD sent to the manufacturer's tool, then --verify-only passed
+        - Manufacturer's tool had no erase option for this SSD
+        - Failed (see notes)
+    validations:
+      required: true
+
+  - type: input
+    id: duration
+    attributes:
+      label: Time taken
+      placeholder: 5 h for 1 TB
+
+  - type: input
+    id: release
+    attributes:
+      label: Release
+      placeholder: v1.0.0
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: "Sanitize method used (crypto scramble or block erase), errors, anything unusual."
